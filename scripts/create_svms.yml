@@ -1,0 +1,185 @@
+---
+- hosts:        all
+  connection:   local
+  name:         "'Brew Me Well' - SVM deployment"
+  gather_facts: false
+  vars:
+    login: &login
+      username: "{{ credentials_ontap_user }}"
+      password: "{{ credentials_ontap_password }}"      
+      https: true
+      validate_certs: no
+    input_nfsv3: "enabled"
+    input_nfsv4: "enabled"
+    input_default_vol_size_MB: 30
+
+  tasks:
+    - name: "Print all storage clusters"
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }}"
+
+    - name: "Set SVM details"
+      ansible.builtin.set_fact:
+        internal_svm_name: "demo_svm_0{{ inventory_hostname[-1] }}"
+        internal_svm_ip: "10.62.149.16{{ inventory_hostname[-1] }}"
+
+    - name: "Create SVM"
+      netapp.ontap.na_ontap_svm:
+        state:               "present"
+        name:                "{{ internal_svm_name }}"
+        language:            "C.UTF-8"
+        services:
+          cifs:
+            allowed:         true
+          nfs:
+            allowed:         true        
+            enabled:         true        
+        snapshot_policy:     "none"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+    
+    - name: "Create SVM LIF"
+      netapp.ontap.na_ontap_interface:
+        state:               "present"
+        vserver:             "{{ internal_svm_name }}"
+        interface_name:      "{{ internal_svm_name }}_lif01"
+        interface_type:      "ip"
+        address:             "{{ internal_svm_ip }}"
+        netmask:             "24"
+        admin_status:        "up"
+        home_node:           "{{ inventory_hostname }}-01"
+        home_port:           "e0a"
+        service_policy:      "default-data-files"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+    
+    - name: "Create default route"
+      netapp.ontap.na_ontap_net_routes:
+        state:               "present"
+        vserver:             "{{ internal_svm_name }}"
+        destination:         "0.0.0.0/0"
+        gateway:             "10.62.149.1"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+    
+    - name: "Create DNS client"
+      netapp.ontap.na_ontap_dns:
+        state:               "present"
+        vserver:             "{{ internal_svm_name }}"
+        domains:             "bmw.local"
+        nameservers:         "10.62.149.21"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+    
+    - name: "Create and configure CIFS server"
+      netapp.ontap.na_ontap_cifs_server:
+        state:               "present"
+        vserver:             "{{ internal_svm_name }}"
+        name:                "{{ internal_svm_name }}"
+        admin_user_name:     "{{ credentials_ad_user }}"
+        admin_password:      "{{ credentials_ad_password }}"
+        domain:              "bmw.local"
+        ou:                  "OU=EUROPE,OU=BMW,OU=CORP"
+        service_state:       "started"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+#      register: result
+#      retries: 5
+#      delay: 30
+#      until: "result is not failed"
+
+    - name: "Configure NFS server"
+      netapp.ontap.na_ontap_nfs:
+        state:               "present"
+        vserver:             "{{ internal_svm_name }}"
+        nfsv3:               "{{ input_nfsv3 }}"             
+        nfsv4:               "{{ input_nfsv4 }}"
+        nfsv41:              "disabled"
+        nfsv41_pnfs:         "disabled"
+        service_state:       "started"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+
+    - name: "Create export policy"
+      netapp.ontap.na_ontap_export_policy:
+        state:               "present"             
+        name:                "{{ internal_svm_name }}_policy"
+        vserver:             "{{ internal_svm_name }}"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+
+    - name: "Create export policy rules"
+      netapp.ontap.na_ontap_export_policy_rule:
+        state:               present
+        vserver:             "{{ internal_svm_name }}"
+        name:                "{{ internal_svm_name }}_policy"
+        rule_index:          "1"
+        client_match:        "10.62.149.0/24"
+        protocol:            "nfs"
+        ro_rule:             "any"
+        rw_rule:             "any"
+        super_user_security: "none"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+
+    - name: "Create volume"
+      netapp.ontap.na_ontap_volume:
+        state:               "present"
+        name:                "{{ internal_svm_name }}_vol01"
+        vserver:             "{{ internal_svm_name }}"
+        export_policy:       "{{ internal_svm_name }}_policy"
+        junction_path:       "/{{ internal_svm_name }}_vol01"
+        aggregate_name:      "{{ inventory_hostname }}_01_data_01"
+        size:                "{{ input_default_vol_size_MB }}"
+        size_unit:           "mb"
+        space_guarantee:     "none"
+        snapshot_policy:     "default"
+        volume_security_style: "unix"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+
+    - name: "Create qtree for CIFS access"
+      netapp.ontap.na_ontap_qtree:
+        state:               "present"
+        export_policy:       "{{ internal_svm_name }}_policy"
+        name:                "{{ internal_svm_name }}_qtreeCIFS_01"
+        flexvol_name:        "{{ internal_svm_name }}_vol01"
+        vserver:             "{{ internal_svm_name }}"
+        security_style:      "ntfs"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+
+    - name: "Create qtree for NFS access"
+      netapp.ontap.na_ontap_qtree:
+        state:               "present"
+        export_policy:       "{{ internal_svm_name }}_policy"
+        name:                "{{ internal_svm_name }}_qtreeNFS_01"
+        flexvol_name:        "{{ internal_svm_name }}_vol01"
+        vserver:             "{{ internal_svm_name }}"
+        security_style:      "unix"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+
+    - name: "Create CIFS share"
+      netapp.ontap.na_ontap_cifs:
+        state:               "present"
+        vserver:             "{{ internal_svm_name }}"
+        path:                "/{{ internal_svm_name }}_vol01/{{ internal_svm_name }}_qtreeCIFS_01"
+        share_name:          "qtreeCIFS_01"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+
+    - name: "Add ACL to CIFS share"
+      netapp.ontap.na_ontap_cifs_acl:
+        state:               "present"
+        share_name:          "qtreeCIFS_01"
+        vserver:             "{{ internal_svm_name }}"
+        permission:          "full_control"
+        user_or_group:       "{{ item }}"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+      loop_control:
+        label:               "{{ item[4:] }}"
+      loop:
+        - "BMW\\Administrator"
+        - "BMW\\badrian"

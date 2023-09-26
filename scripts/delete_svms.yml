@@ -1,0 +1,67 @@
+---
+- hosts:        all
+  connection:   local
+  name:         "'Brew Me Well' - SVM removal"
+  gather_facts: false
+  vars:
+    login: &login
+      username: "{{ credentials_ontap_user }}"
+      password: "{{ credentials_ontap_password }}"      
+      https: true
+      validate_certs: no
+
+  tasks:
+    - name: "Print all storage clusters"
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }}"
+
+    - name: "Set SVM details"
+      ansible.builtin.set_fact:
+        internal_svm_name: "demo_svm_0{{ inventory_hostname[-1] }}"
+        internal_svm_ip: "10.62.149.16{{ inventory_hostname[-1] }}"
+
+    - name: "Delete CIFS server"
+      netapp.ontap.na_ontap_cifs_server:
+        state:               "absent"
+        vserver:             "{{ internal_svm_name }}"
+        name:                "{{ internal_svm_name }}"
+        admin_user_name:     "{{ credentials_ad_user }}"
+        admin_password:      "{{ credentials_ad_password }}"
+        domain:              "bmw.local"
+        ou:                  "OU=EUROPE,OU=BMW,OU=CORP"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+#      register: result
+#      retries: 5
+#      delay: 30
+#      until: "result is not failed"
+
+    - name: "Get volumes to be deleted"
+      netapp.ontap.na_ontap_rest_info:
+        gather_subset:       "storage/volumes"
+        fields:
+          - "svm"
+        parameters:
+          svm.name:          "{{ internal_svm_name }}"
+          name:              "!*_root"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+      register:              info_svm_vols
+
+    - name: "Delete volumes"
+      netapp.ontap.na_ontap_volume:
+        state:               absent
+        name:                "{{ item.name }}"
+        vserver:             "{{ internal_svm_name }}"
+        <<: *login
+        hostname:            "{{ ip_address }}"
+      loop_control:
+        label:               "{{ item.name }}"
+      loop:                  "{{ info_svm_vols.ontap_info['storage/volumes'].records }}"
+
+    - name: "Delete SVMs"
+      netapp.ontap.na_ontap_svm:
+        state:               absent
+        name:                "{{ internal_svm_name }}"
+        <<: *login
+        hostname:            "{{ ip_address }}"
