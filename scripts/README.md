@@ -15,3 +15,19 @@ To run **PowerShell** install NetApp.ONTAP module:
 `Show-NcHelp`
 `Connect-NaController cluster1 -Credential admin -HTTPS`
 `get-NcCifsShareACL -vserverContent ntap-svm01-nas`
+
+
+Initial Connectivity Test and Version
+real    0m2.156s
+user    0m2.021s
+sys     0m0.389s
+
+Cluster Configuration
+
+SVM (Vserver) Configuration
+
+
+NFS Export Configuration
+
+
+SMB Share Configuration
