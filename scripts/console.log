@@ -1,0 +1,1227 @@
+Script started on Wed 04 Oct 2023 03:46:30 PM UTC
+]0;root@centos1:~/NetApp-ONTAP-Testplan/scripts[?1034h[root@centos1 scripts]# ll
+total 104
+-rw-r--r-- 1 root root 16551 Oct  3 16:05 [0m[38;5;9mAutomation_Artifcats.zip[0m
+-rw-r--r-- 1 root root  2590 Oct  3 16:05 change_volsize.py
+-rw-r--r-- 1 root root     0 Oct  4 15:46 console.log
+-rw-r--r-- 1 root root  2168 Oct  3 16:05 create_snap.py
+-rw-r--r-- 1 root root  6850 Oct  3 16:05 create_svms.yml
+-rw-r--r-- 1 root root  2237 Oct  3 16:05 delete_svms.yml
+-rw-r--r-- 1 root root  5777 Oct  3 16:05 qtree_operations.py
+-rw-r--r-- 1 root root  8641 Oct  3 16:05 quota_operations.py
+-rw-r--r-- 1 root root   807 Oct  3 16:37 README.md
+-rw-r--r-- 1 root root  5989 Oct  3 16:05 snapshot_operations.py
+-rw-r--r-- 1 root root 15399 Oct  3 16:05 utils.py
+-rw-r--r-- 1 root root 14025 Oct  3 16:05 volume_operations.py
+]0;root@centos1:~/NetApp-ONTAP-Testplan/scripts[root@centos1 scripts]# pwd
+/root/NetApp-ONTAP-Testplan/scripts
+]0;root@centos1:~/NetApp-ONTAP-Testplan/scripts[root@centos1 scripts]# [K[root@centos1 scripts]# cd ..
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# ls
+ansible.cfg  [0m[38;5;27minit[0m  [38;5;27minventories[0m  [38;5;27mplaybooks[0m  README.md  [38;5;27mscripts[0m  [38;5;27mvars[0m
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# ansible-playbook -i inventories/labondemand/[K playbooks/ONTAP-1[K00[K1-04.yml 
+
+PLAY [ONTAP-01-04 - Ansible] ***********************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Print hosts and inventory source] ************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1] => {[0m
+[0;32m    "msg": "cluster1.demo.netapp.com from /root/NetApp-ONTAP-Testplan/inventories/labondemand"[0m
+[0;32m}[0m
+[0;32mok: [cluster2] => {[0m
+[0;32m    "msg": "cluster2.demo.netapp.com from /root/NetApp-ONTAP-Testplan/inventories/labondemand"[0m
+[0;32m}[0m
+
+TASK [Get ONTAP version info] **********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Print ONTAP version info] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        {[0m
+[0;32m            "changed": false,[0m
+[0;32m            "failed": false,[0m
+[0;32m            "ontap_info": {[0m
+[0;32m                "cluster_software": {[0m
+[0;32m                    "_links": {[0m
+[0;32m                        "self": {[0m
+[0;32m                            "href": "/api/cluster/software"[0m
+[0;32m                        }[0m
+[0;32m                    },[0m
+[0;32m                    "nodes": [[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster1-01",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        },[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster1-02",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        }[0m
+[0;32m                    ][0m
+[0;32m                }[0m
+[0;32m            }[0m
+[0;32m        }[0m
+[0;32m    ][0m
+[0;32m}[0m
+[0;32mok: [cluster2] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        {[0m
+[0;32m            "changed": false,[0m
+[0;32m            "failed": false,[0m
+[0;32m            "ontap_info": {[0m
+[0;32m                "cluster_software": {[0m
+[0;32m                    "_links": {[0m
+[0;32m                        "self": {[0m
+[0;32m                            "href": "/api/cluster/software"[0m
+[0;32m                        }[0m
+[0;32m                    },[0m
+[0;32m                    "nodes": [[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster2-01",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        },[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster2-02",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        }[0m
+[0;32m                    ][0m
+[0;32m                }[0m
+[0;32m            }[0m
+[0;32m        }[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mcluster1[0m                   : [0;32mok=3   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;32mcluster2[0m                   : [0;32mok=3   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time !!
+time ansible-playbook -i inventories/labondemand playbooks/ONTAP-01-04.yml 
+
+PLAY [ONTAP-01-04 - Ansible] ***********************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Print hosts and inventory source] ************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1] => {[0m
+[0;32m    "msg": "cluster1.demo.netapp.com from /root/NetApp-ONTAP-Testplan/inventories/labondemand"[0m
+[0;32m}[0m
+[0;32mok: [cluster2] => {[0m
+[0;32m    "msg": "cluster2.demo.netapp.com from /root/NetApp-ONTAP-Testplan/inventories/labondemand"[0m
+[0;32m}[0m
+
+TASK [Get ONTAP version info] **********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster2][0m
+[0;32mok: [cluster1][0m
+
+TASK [Print ONTAP version info] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        {[0m
+[0;32m            "changed": false,[0m
+[0;32m            "failed": false,[0m
+[0;32m            "ontap_info": {[0m
+[0;32m                "cluster_software": {[0m
+[0;32m                    "_links": {[0m
+[0;32m                        "self": {[0m
+[0;32m                            "href": "/api/cluster/software"[0m
+[0;32m                        }[0m
+[0;32m                    },[0m
+[0;32m                    "nodes": [[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster1-01",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        },[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster1-02",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        }[0m
+[0;32m                    ][0m
+[0;32m                }[0m
+[0;32m            }[0m
+[0;32m        }[0m
+[0;32m    ][0m
+[0;32m}[0m
+[0;32mok: [cluster2] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        {[0m
+[0;32m            "changed": false,[0m
+[0;32m            "failed": false,[0m
+[0;32m            "ontap_info": {[0m
+[0;32m                "cluster_software": {[0m
+[0;32m                    "_links": {[0m
+[0;32m                        "self": {[0m
+[0;32m                            "href": "/api/cluster/software"[0m
+[0;32m                        }[0m
+[0;32m                    },[0m
+[0;32m                    "nodes": [[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster2-01",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        },[0m
+[0;32m                        {[0m
+[0;32m                            "name": "cluster2-02",[0m
+[0;32m                            "version": "Lighthouse__9.13.1"[0m
+[0;32m                        }[0m
+[0;32m                    ][0m
+[0;32m                }[0m
+[0;32m            }[0m
+[0;32m        }[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mcluster1[0m                   : [0;32mok=3   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;32mcluster2[0m                   : [0;32mok=3   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+real	0m2.157s
+user	0m2.019s
+sys	0m0.357s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# [K[root@centos1 NetApp-ONTAP-Testplan]# [K[root@centos1 NetApp-ONTAP-Testplan]# [K[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-01-04.yml [1P [1P [1P [1P [1P [1P [1P [1P [1P 1 9 - [1P [1P 0 - * 
+
+PLAY [ONTAP-10-01 - Licenses] **********************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Install licenses on storage cluster] *********************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mcluster1[0m                   : ok=0    changed=0    unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+[0;32mcluster2[0m                   : ok=0    changed=0    unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+
+
+PLAY [ONTAP-10-02 - Physical Network] **************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create broadcast domains on storage cluster] *************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=bc_data)[0m
+[0;33mchanged: [cluster2] => (item=bc_data)[0m
+
+TASK [Create interface groups on storage cluster] **************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=cluster1-01:a0a)[0m
+[0;33mchanged: [cluster2] => (item=cluster2-01:a0a)[0m
+[0;33mchanged: [cluster2] => (item=cluster2-02:a0a)[0m
+[0;33mchanged: [cluster1] => (item=cluster1-02:a0a)[0m
+
+TASK [Configure default network route on storage cluster] ******************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=3   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=3   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+
+[1;35m[WARNING]: While constructing a mapping from /root/NetApp-ONTAP-Testplan/playbooks/ONTAP-10-03.yml, line 40, column 7, found a duplicate dict key (use_rest). Using last defined value only.[0m
+
+PLAY [ONTAP-10-03 - Network Services] **************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create DNS config on storage cluster] ********************************************************************************************************************************************************************************************************************************************************************************
+[1;35m[WARNING]: With version 22.0.0 ONTAPI (ZAPI) has been deprecated. The final ONTAP version to support ZAPI is ONTAP 9.13.1.  ZAPI calls in these modules will continue to work for ONTAP versions that supports ZAPI.  You can update your playbook to use REST by adding use_rest: always to your playbook.  More[0m
+[1;35minformation can be found at: https://github.com/ansible-collections/netapp.ontap[0m
+[0;33mchanged: [cluster1][0m
+[0;33mchanged: [cluster2][0m
+
+TASK [Create NTP server on storage cluster] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2] => (item=0.us.pool.ntp.org)[0m
+[0;33mchanged: [cluster1] => (item=0.us.pool.ntp.org)[0m
+[1;30mFAILED - RETRYING: [cluster2]: Create NTP server on storage cluster (5 retries left).[0m
+[1;30mFAILED - RETRYING: [cluster1]: Create NTP server on storage cluster (5 retries left).[0m
+[0;33mchanged: [cluster2] => (item=1.us.pool.ntp.org)[0m
+[1;30mFAILED - RETRYING: [cluster1]: Create NTP server on storage cluster (4 retries left).[0m
+[1;30mFAILED - RETRYING: [cluster1]: Create NTP server on storage cluster (3 retries left).[0m
+[0;33mchanged: [cluster1] => (item=1.us.pool.ntp.org)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=5   [0m [0;33mchanged=4   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=5   [0m [0;33mchanged=4   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+
+
+PLAY [ONTAP-10-04 - Storage Aggregates] ************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create data aggregates on storage cluster] ***************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=cluster1-01:cluster1_01_aggr01)[0m
+[0;33mchanged: [cluster2] => (item=cluster2-01:cluster2_01_aggr01)[0m
+[0;33mchanged: [cluster2] => (item=cluster2-02:cluster2_02_aggr01)[0m
+[0;33mchanged: [cluster1] => (item=cluster1-02:cluster1_02_aggr01)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=6   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=6   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+
+
+PLAY [ONTAP-10-05 - AutoSupport] *******************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Send Test AutoSupport (Call Home)] ***********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+[0;33mchanged: [cluster2][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=7   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=7   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m rescued=0    ignored=0   
+
+
+real	1m33.155s
+user	0m20.262s
+sys	0m3.238s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-10-* [1P[1@1
+
+PLAY [ONTAP-11-01 - Cluster/Node Parameters] *******************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Set timezone on storage cluster] *************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+TASK [Create login banner and message of the day (MOTD) on storage cluster] ************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2] => (item={'banner': '################ TEST BANNER ################\n# This system is currently in testing state #\n#############################################\n', 'scope': 'cluster', 'message': 'Welcome! Please note:\nThis system is not ready for production yet!\n'})[0m
+[0;33mchanged: [cluster1] => (item={'banner': '################ TEST BANNER ################\n# This system is currently in testing state #\n#############################################\n', 'scope': 'cluster', 'message': 'Welcome! Please note:\nThis system is not ready for production yet!\n'})[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=2   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=2   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[1;35m[WARNING]: While constructing a mapping from /root/NetApp-ONTAP-Testplan/playbooks/ONTAP-11-02.yml, line 18, column 3, found a duplicate dict key (post_tasks). Using last defined value only.[0m
+
+PLAY [ONTAP-11-02 - Administrative Domain Authentication] ******************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Check if any domain tunnel exists] ***********************************************************************************************************************************************************************************************************************************************************************************
+[0;31mfatal: [cluster2]: FAILED! => {"changed": false, "msg": {"code": "4", "message": "entry doesn't exist"}}[0m
+[0;36m...ignoring[0m
+[0;31mfatal: [cluster1]: FAILED! => {"changed": false, "msg": {"code": "4", "message": "entry doesn't exist"}}[0m
+[0;36m...ignoring[0m
+
+TASK [Show all domain tunnel svms] *****************************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+TASK [Create SVM for domain tunnel (proxy)] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item={'name': 'cluster1_ad', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': False}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the tunnel SVM for cluster AD authentication'})[0m
+[0;36mskipping: [cluster1] => (item={'name': 'ntap-svm01-nas', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'auto_enable_analytics': True, 'auto_enable_activity_tracking': True, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': True}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the first SVM for NAS testing'}) [0m
+[0;36mskipping: [cluster1] => (item={'name': 'ntap-svm02-san', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'auto_enable_analytics': True, 'auto_enable_activity_tracking': True, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': False}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': True}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the second SVM for SAN testing'}) [0m
+[0;33mchanged: [cluster2] => (item={'name': 'cluster2_ad', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': False}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the tunnel SVM for cluster AD authentication'})[0m
+[0;36mskipping: [cluster2] => (item={'name': 'ntap-svm03-backup', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'auto_enable_analytics': True, 'auto_enable_activity_tracking': True, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': True, 'enabled': True}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the primary backup SVM for testing'}) [0m
+
+TASK [Create network interfaces on proxy SVM] ******************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2] => (item={'name': 'cluster2_ad', 'scope': 'svm', 'svm': {'name': 'cluster2_ad'}, 'ip': {'netmask': '24', 'address': '192.168.0.220', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster2-01'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-management'}})[0m
+[0;33mchanged: [cluster1] => (item={'name': 'cluster1_ad', 'scope': 'svm', 'svm': {'name': 'cluster1_ad'}, 'ip': {'netmask': '24', 'address': '192.168.0.210', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster1-01'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-management'}})[0m
+[0;36mskipping: [cluster1] => (item={'name': 'ntap-svm01-nas', 'scope': 'svm', 'svm': {'name': 'ntap-svm01-nas'}, 'ip': {'netmask': '24', 'address': '192.168.0.211', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster1-01'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-data-files'}}) [0m
+[0;36mskipping: [cluster2] => (item={'name': 'ntap-svm03-backup', 'scope': 'svm', 'svm': {'name': 'ntap-svm03-backup'}, 'ip': {'netmask': '24', 'address': '192.168.0.221', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster2-01'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-data-files'}}) [0m
+[0;36mskipping: [cluster2] => (item={'name': 'cluster2-01_ic01', 'scope': 'cluster', 'ip': {'netmask': '24', 'address': '192.168.0.123', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster2-01'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-intercluster'}}) [0m
+[0;36mskipping: [cluster2] => (item={'name': 'cluster2-02_ic01', 'scope': 'cluster', 'ip': {'netmask': '24', 'address': '192.168.0.124', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster2-02'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-intercluster'}}) [0m
+[0;36mskipping: [cluster1] => (item={'name': 'ntap-svm02-san', 'scope': 'svm', 'svm': {'name': 'ntap-svm02-san'}, 'ip': {'netmask': '24', 'address': '192.168.0.212', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster1-02'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-data-files'}}) [0m
+[0;36mskipping: [cluster1] => (item={'name': 'cluster1-01_ic01', 'scope': 'cluster', 'ip': {'netmask': '24', 'address': '192.168.0.121', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster1-01'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-intercluster'}}) [0m
+[0;36mskipping: [cluster1] => (item={'name': 'cluster1-02_ic01', 'scope': 'cluster', 'ip': {'netmask': '24', 'address': '192.168.0.122', 'family': 'ipv4'}, 'location': {'home_node': {'name': 'cluster1-02'}, 'home_port': {'name': 'e0c'}, 'auto_revert': True}, 'service_policy': {'name': 'default-intercluster'}}) [0m
+
+TASK [Configure default route on proxy SVM] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+TASK [Configure DNS on proxy SVM] ******************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item={'name': 'cluster1_ad', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': False}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the tunnel SVM for cluster AD authentication'})[0m
+[0;36mskipping: [cluster1] => (item={'name': 'ntap-svm01-nas', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'auto_enable_analytics': True, 'auto_enable_activity_tracking': True, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': True}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the first SVM for NAS testing'}) [0m
+[0;36mskipping: [cluster1] => (item={'name': 'ntap-svm02-san', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'auto_enable_analytics': True, 'auto_enable_activity_tracking': True, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': False}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': True}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the second SVM for SAN testing'}) [0m
+[0;33mchanged: [cluster2] => (item={'name': 'cluster2_ad', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': False}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the tunnel SVM for cluster AD authentication'})[0m
+[0;36mskipping: [cluster2] => (item={'name': 'ntap-svm03-backup', 'dns': {'domains': ['demo.netapp.com'], 'servers': ['192.168.0.253']}, 'auto_enable_analytics': True, 'auto_enable_activity_tracking': True, 'ipspace': {'name': 'Default'}, 'nfs': {'allowed': True, 'enabled': True}, 'cifs': {'allowed': True}, 'iscsi': {'allowed': False}, 'fcp': {'allowed': False}, 'ndmp': {'allowed': False}, 'nvme': {'allowed': False}, 'language': 'utf8mb4', 'comment': 'This is the primary backup SVM for testing'}) [0m
+
+TASK [Create active directory preferred domain controllers] ****************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster2] => (item=ntap-svm03-backup) [0m
+[0;36mskipping: [cluster2][0m
+[0;33mchanged: [cluster1] => (item=cluster1_ad)[0m
+[0;36mskipping: [cluster1] => (item=ntap-svm01-nas) [0m
+
+TASK [Create CIFS server on SVMs] ******************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item={'name': 'cluster1_ad', 'svm': {'name': 'cluster1_ad'}, 'ad_domain': {'fqdn': 'demo.netapp.com', 'organizational_unit': 'OU=Storage,DC=DEMO,DC=NETAPP,DC=COM'}, 'comment': 'This CIFS Server is for cluster AD authentication', 'enabled': True})[0m
+[0;33mchanged: [cluster2] => (item={'name': 'cluster2_ad', 'svm': {'name': 'cluster2_ad'}, 'ad_domain': {'fqdn': 'demo.netapp.com', 'organizational_unit': 'OU=Storage,DC=DEMO,DC=NETAPP,DC=COM'}, 'comment': 'This CIFS Server is for cluster AD authentication', 'enabled': True})[0m
+[0;36mskipping: [cluster2] => (item={'name': 'svm03-backup', 'svm': {'name': 'ntap-svm03-backup'}, 'ad_domain': {'fqdn': 'demo.netapp.com', 'organizational_unit': 'OU=Storage,DC=DEMO,DC=NETAPP,DC=COM'}, 'comment': 'This CIFS Server is the default NAS backup location', 'enabled': True}) [0m
+[0;36mskipping: [cluster1] => (item={'name': 'svm01-nas', 'svm': {'name': 'ntap-svm01-nas'}, 'ad_domain': {'fqdn': 'demo.netapp.com', 'organizational_unit': 'OU=Storage,DC=DEMO,DC=NETAPP,DC=COM'}, 'comment': 'This CIFS Server is created for the primary NAS SVM', 'enabled': True}) [0m
+[0;36mskipping: [cluster1] => (item={'name': 'svm02-san', 'svm': {'name': 'ntap-svm02-san'}, 'ad_domain': {'fqdn': 'demo.netapp.com', 'organizational_unit': 'OU=Storage,DC=DEMO,DC=NETAPP,DC=COM'}, 'comment': 'This CIFS Server is created for the primary SAN SVM', 'enabled': True}) [0m
+
+TASK [Patch additional SVM CIFS parameters - comment] **********************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=cluster1_ad)[0m
+[0;33mchanged: [cluster2] => (item=cluster2_ad)[0m
+[0;36mskipping: [cluster2] => (item=ntap-svm03-backup) [0m
+[0;36mskipping: [cluster1] => (item=ntap-svm01-nas) [0m
+[0;36mskipping: [cluster1] => (item=ntap-svm02-san) [0m
+
+TASK [Create domain tunnel for cluster AD authentication] ******************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=10  [0m [0;33mchanged=9   [0m unreachable=0    failed=0    [0;36mskipped=2   [0m rescued=0    [1;35mignored=1   [0m
+[0;33mcluster2[0m                   : [0;32mok=9   [0m [0;33mchanged=8   [0m unreachable=0    failed=0    [0;36mskipped=3   [0m rescued=0    [1;35mignored=1   [0m
+
+
+PLAY [ONTAP-11-03 - Key Manager] *******************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Configure onboard Key Manager] ***************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+TASK [Get all non-root aggregates] *****************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster2][0m
+[0;32mok: [cluster1][0m
+
+TASK [Enable aggregate encryption on all aggregates] ***********************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=cluster1_01_aggr01)[0m
+[0;33mchanged: [cluster2] => (item=cluster2_01_aggr01)[0m
+[0;33mchanged: [cluster1] => (item=cluster1_02_aggr01)[0m
+[0;33mchanged: [cluster2] => (item=cluster2_02_aggr01)[0m
+
+TASK [Get key manager configuration and backup] ****************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Display key manager configuration and backup] ************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        [[0m
+[0;32m            {[0m
+[0;32m                "_links": {[0m
+[0;32m                    "self": {[0m
+[0;32m                        "href": "/api/security/key-managers/79255b93-62d0-11ee-a847-005056ab483e"[0m
+[0;32m                    }[0m
+[0;32m                },[0m
+[0;32m                "is_default_data_at_rest_encryption_disabled": false,[0m
+[0;32m                "onboard": {[0m
+[0;32m                    "enabled": true,[0m
+[0;32m                    "key_backup": "--------------------------BEGIN BACKUP--------------------------TmV0QXBwIEtleSBCbG9iAAEBAAAEAAAAcAEAAAAAAACxvCWqAAAAACEAAAAAAAAAQAAAAAAAAACajQ70AAAAALO3kJk987V/DMnleRx0YEf+FzpfyEXQ6Ksxq7en9fT9o7X6Gwgn1Yc1iCyOYUDP3oQh0ZCnIEpl/oi9l/OOoOciAAAAAAAAACgAAAAAAAAA3WTh7gAAAAAAAAAAAAAAAAIAAAAAAAgAZJEIWvdeHr5RCAvHGclo+wAAAAAAAAAAIgAAAAAAAAAoAAAAAAAAAEOTcR0AAAAAAAAAAAAAAAACAAAAAAAJAGr3tJA/LRzUQRHwv+1aWvAAAAAAAAAAACQAAAAAAAAAgAAAAAAAAADdqIU0AAAAAO5vusocRWefH6MvFWPMyKuPOFyeWF+DNB5VhetRvD3Z/N/4o3mxlnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABOZXRBcHAgS2V5IEJsb2IAAQEAAAMAAAAYAQAAAAAAADIuljkAAAAAIgAAAAAAAAAoAAAAAAAAAEOTcR0AAAAAAAAAAAAAAAACAAAAAAAJAGr3tJA/LRzUQRHwv+1aWvAAAAAAAAAAACIAAAAAAAAAKAAAAAAAAADAoT6cAAAAAAAAAAAAAAAAAgAAAAAAAQDCEXeP9MCrclmuKLYu3L2/AAAAAAAAAAAkAAAAAAAAAIAAAAAAAAAA/gyt5gAAAACXQObNRocQKI5U6opwptOfFHc7UUq4WUcVq6WP2ox8AkTBlvUSInFJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE5ldEFwcCBLZXkgQmxvYgABAQAAAwAAABgBAAAAAAAAoXHjpAAAAAAiAAAAAAAAACgAAAAAAAAAQ5NxHQAAAAAAAAAAAAAAAAIAAAAAAAkAave0kD8tHNRBEfC/7Vpa8AAAAAAAAAAAIgAAAAAAAAAoAAAAAAAAAFe0LeQAAAAAAAAAAAAAAAACAAAAAAABAPE3etBtbBuR7ZtAKsoU2Z8AAAAAAAAAACQAAAAAAAAAgAAAAAAAAADICjs6AAAAAAyEEjfH0O/gqB46aK01SKgJYTdr+R1aaa9hmyLKtN8x1cPE3fFyD9gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---------------------------END BACKUP---------------------------"[0m
+[0;32m                },[0m
+[0;32m                "scope": "cluster",[0m
+[0;32m                "uuid": "79255b93-62d0-11ee-a847-005056ab483e",[0m
+[0;32m                "volume_encryption": {[0m
+[0;32m                    "code": 0,[0m
+[0;32m                    "message": "",[0m
+[0;32m                    "supported": true[0m
+[0;32m                }[0m
+[0;32m            }[0m
+[0;32m        ][0m
+[0;32m    ][0m
+[0;32m}[0m
+[0;32mok: [cluster2] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        [[0m
+[0;32m            {[0m
+[0;32m                "_links": {[0m
+[0;32m                    "self": {[0m
+[0;32m                        "href": "/api/security/key-managers/791bfaa5-62d0-11ee-8d2e-005056abdd29"[0m
+[0;32m                    }[0m
+[0;32m                },[0m
+[0;32m                "is_default_data_at_rest_encryption_disabled": false,[0m
+[0;32m                "onboard": {[0m
+[0;32m                    "enabled": true,[0m
+[0;32m                    "key_backup": "--------------------------BEGIN BACKUP--------------------------TmV0QXBwIEtleSBCbG9iAAEBAAAEAAAAcAEAAAAAAAAMXI9/AAAAACEAAAAAAAAAQAAAAAAAAACZTTSGAAAAAMFgAnMGnET8PB/GTLCzOcXlomWX59Oo6YVvBhMLz8EWqy4iSij53KZ/jy1jjRqp/DtZ96PVx6lU4exeBvCHpYEiAAAAAAAAACgAAAAAAAAA3WTh7gAAAAAAAAAAAAAAAAIAAAAAAAgAZJEIWvdeHr5RCAvHGclo+wAAAAAAAAAAIgAAAAAAAAAoAAAAAAAAAEOTcR0AAAAAAAAAAAAAAAACAAAAAAAJAGr3tJA/LRzUQRHwv+1aWvAAAAAAAAAAACQAAAAAAAAAgAAAAAAAAADhao+xAAAAACtKfAtCI5XR97/i7bsKqUiMWFXGjt7iXo4AjpJoLksX8KoRykBOH8kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABOZXRBcHAgS2V5IEJsb2IAAQEAAAMAAAAYAQAAAAAAAMfZN8AAAAAAIgAAAAAAAAAoAAAAAAAAAEOTcR0AAAAAAAAAAAAAAAACAAAAAAAJAGr3tJA/LRzUQRHwv+1aWvAAAAAAAAAAACIAAAAAAAAAKAAAAAAAAADn4LtwAAAAAAAAAAAAAAAAAgAAAAAAAQB/wla7M7AyHDihdN+OmP7dAAAAAAAAAAAkAAAAAAAAAIAAAAAAAAAAp1vtLQAAAADc4yxXGWEw1KWRphavavaV/U+GOCE/Vg4ThLqw+JjI5GpxYNNTV7yYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE5ldEFwcCBLZXkgQmxvYgABAQAAAwAAABgBAAAAAAAAHLR13gAAAAAiAAAAAAAAACgAAAAAAAAAQ5NxHQAAAAAAAAAAAAAAAAIAAAAAAAkAave0kD8tHNRBEfC/7Vpa8AAAAAAAAAAAIgAAAAAAAAAoAAAAAAAAANBviUAAAAAAAAAAAAAAAAACAAAAAAABALdvaV3SBpKs3qlmOqxQq7wAAAAAAAAAACQAAAAAAAAAgAAAAAAAAACAooXOAAAAAIw++HiS33Dr2urz3UWAwAQ0ZSz9DdqCcAJtCcrhhiOlvK1eJZ+xMI0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA---------------------------END BACKUP---------------------------"[0m
+[0;32m                },[0m
+[0;32m                "scope": "cluster",[0m
+[0;32m                "uuid": "791bfaa5-62d0-11ee-8d2e-005056abdd29",[0m
+[0;32m                "volume_encryption": {[0m
+[0;32m                    "code": 0,[0m
+[0;32m                    "message": "",[0m
+[0;32m                    "supported": true[0m
+[0;32m                }[0m
+[0;32m            }[0m
+[0;32m        ][0m
+[0;32m    ][0m
+[0;32m}[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=15  [0m [0;33mchanged=11  [0m unreachable=0    failed=0    [0;36mskipped=2   [0m rescued=0    [1;35mignored=1   [0m
+[0;33mcluster2[0m                   : [0;32mok=14  [0m [0;33mchanged=10  [0m unreachable=0    failed=0    [0;36mskipped=3   [0m rescued=0    [1;35mignored=1   [0m
+
+
+real	0m31.240s
+user	0m17.447s
+sys	0m3.167s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-11-* [1P[1@2
+
+PLAY [ONTAP-12-01 - Read-only Local User] **********************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create local users with read-only privileges] ************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=na_local_admin) [0m
+[0;36mskipping: [cluster2] => (item=na_local_admin) [0m
+[0;33mchanged: [cluster1] => (item=na_local_ro)[0m
+[0;36mskipping: [cluster1] => (item=DEMO\na_ad_admin_group) [0m
+[0;36mskipping: [cluster1] => (item=DEMO\na_ad_ro_group) [0m
+[0;33mchanged: [cluster2] => (item=na_local_ro)[0m
+[0;36mskipping: [cluster2] => (item=DEMO\na_ad_admin_group) [0m
+[0;36mskipping: [cluster2] => (item=DEMO\na_ad_ro_group) [0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=1   [0m [0;33mchanged=1   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-12-02 - Administrative Local User] *****************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create local users with read-only privileges] ************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=na_local_admin)[0m
+[0;33mchanged: [cluster2] => (item=na_local_admin)[0m
+[0;36mskipping: [cluster1] => (item=na_local_ro) [0m
+[0;36mskipping: [cluster2] => (item=na_local_ro) [0m
+[0;36mskipping: [cluster1] => (item=DEMO\na_ad_admin_group) [0m
+[0;36mskipping: [cluster1] => (item=DEMO\na_ad_ro_group) [0m
+[0;36mskipping: [cluster2] => (item=DEMO\na_ad_admin_group) [0m
+[0;36mskipping: [cluster2] => (item=DEMO\na_ad_ro_group) [0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=2   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=2   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-12-03 - Local User Access] *************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create test SVM with read-only account] ******************************************************************************************************************************************************************************************************************************************************************************
+[0;31mfatal: [cluster1]: FAILED! => {"changed": false, "msg": "Error in create: calling: svm/svms: got {'message': 'not authorized for that command', 'code': '6'}."}[0m
+[0;31mfatal: [cluster2]: FAILED! => {"changed": false, "msg": "Error in create: calling: svm/svms: got {'message': 'not authorized for that command', 'code': '6'}."}[0m
+
+TASK [Printing rescue message - Expected error] ****************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        "This error was expected",[0m
+[0;32m        "RO user na_local_ro cannot create ressources on the cluster"[0m
+[0;32m    ][0m
+[0;32m}[0m
+[0;32mok: [cluster2] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        "This error was expected",[0m
+[0;32m        "RO user na_local_ro cannot create ressources on the cluster"[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+TASK [Printing rescue message - Unexpected error] **************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+TASK [Create test SVM with admin account] **********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+TASK [Clean-up test SVM with admin account] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=5   [0m [0;33mchanged=4   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m [0;32mrescued=1   [0m ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=5   [0m [0;33mchanged=4   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m [0;32mrescued=1   [0m ignored=0   
+
+
+PLAY [ONTAP-12-04 - Read-only Domain Group] ********************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Assign domain group read-only privileges on cluster] *****************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=na_local_admin) [0m
+[0;36mskipping: [cluster2] => (item=na_local_admin) [0m
+[0;36mskipping: [cluster1] => (item=na_local_ro) [0m
+[0;36mskipping: [cluster1] => (item=DEMO\na_ad_admin_group) [0m
+[0;36mskipping: [cluster2] => (item=na_local_ro) [0m
+[0;36mskipping: [cluster2] => (item=DEMO\na_ad_admin_group) [0m
+[0;33mchanged: [cluster2] => (item=DEMO\na_ad_ro_group)[0m
+[0;33mchanged: [cluster1] => (item=DEMO\na_ad_ro_group)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=6   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m [0;32mrescued=1   [0m ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=6   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m [0;32mrescued=1   [0m ignored=0   
+
+
+PLAY [ONTAP-12-05 - Administrative Domain Group] ***************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create local users with read-only privileges] ************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=na_local_admin) [0m
+[0;36mskipping: [cluster2] => (item=na_local_admin) [0m
+[0;36mskipping: [cluster2] => (item=na_local_ro) [0m
+[0;36mskipping: [cluster1] => (item=na_local_ro) [0m
+[0;33mchanged: [cluster1] => (item=DEMO\na_ad_admin_group)[0m
+[0;36mskipping: [cluster1] => (item=DEMO\na_ad_ro_group) [0m
+[0;33mchanged: [cluster2] => (item=DEMO\na_ad_admin_group)[0m
+[0;36mskipping: [cluster2] => (item=DEMO\na_ad_ro_group) [0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=7   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m [0;32mrescued=1   [0m ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=7   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    [0;36mskipped=1   [0m [0;32mrescued=1   [0m ignored=0   
+
+
+PLAY [ONTAP-04-06 - Domain User Access] ************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create test SVM with read-only account] ******************************************************************************************************************************************************************************************************************************************************************************
+[0;31mfatal: [cluster1]: FAILED! => {"changed": false, "msg": "Error in create: calling: svm/svms: got {'message': 'not authorized for that command', 'code': '6'}."}[0m
+[0;31mfatal: [cluster2]: FAILED! => {"changed": false, "msg": "Error in create: calling: svm/svms: got {'message': 'not authorized for that command', 'code': '6'}."}[0m
+
+TASK [Printing rescue message - Expected error] ****************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        "This error was expected",[0m
+[0;32m        "RO user DEMO\\na_ad_ro_user cannot create ressources on the cluster"[0m
+[0;32m    ][0m
+[0;32m}[0m
+[0;32mok: [cluster2] => {[0m
+[0;32m    "msg": [[0m
+[0;32m        "This error was expected",[0m
+[0;32m        "RO user DEMO\\na_ad_ro_user cannot create ressources on the cluster"[0m
+[0;32m    ][0m
+[0;32m}[0m
+
+TASK [Printing rescue message - Unexpected error] **************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+TASK [Create test SVM with admin account] **********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+TASK [Clean-up test SVM with admin account] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=10  [0m [0;33mchanged=8   [0m unreachable=0    failed=0    [0;36mskipped=2   [0m [0;32mrescued=2   [0m ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=10  [0m [0;33mchanged=8   [0m unreachable=0    failed=0    [0;36mskipped=2   [0m [0;32mrescued=2   [0m ignored=0   
+
+
+PLAY [TAP-12-10 - Admin Multifactor Authentication] ************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create local testuser with read-only account] ************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=10  [0m [0;33mchanged=8   [0m unreachable=0    failed=0    [0;36mskipped=3   [0m [0;32mrescued=2   [0m ignored=0   
+[0;33mcluster2[0m                   : [0;32mok=10  [0m [0;33mchanged=8   [0m unreachable=0    failed=0    [0;36mskipped=3   [0m [0;32mrescued=2   [0m ignored=0   
+
+
+real	0m44.061s
+user	0m15.535s
+sys	0m2.384s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-12-* [1P[1P[1@2[1@0
+
+PLAY [ONTAP-20-01 - Storage Virtual Machines (SVMs)] ***********************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create all SVMs for testing"] ****************************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+
+TASK [Patch additional SVM parameters - auto_enable_analytics] *************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+
+TASK [Patch additional SVM parameters - auto_enable_activity_tracking] *****************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=3   [0m [0;33mchanged=3   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-20-02 - SVM Logical Network] ***********************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create network interfaces on test SVMs] ******************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+[0;36mskipping: [cluster1] => (item=cluster1-01_ic01) [0m
+[0;36mskipping: [cluster1] => (item=cluster1-02_ic01) [0m
+
+TASK [Configure default route on test SVMs] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=5   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-20-03 - SVM Network Services] **********************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Configure DNS on test SVMs] ******************************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=6   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-20-04 - SVM Data Protocol Setup] *******************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Configure NFS service on SVMs] ***************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+
+TASK [Patch additional SVM NFS parameters - v3-64bit-identifiers] **********************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+
+TASK [Patch additional SVM NFS parameters - v4-64bit-identifiers] **********************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+
+TASK [Create active directory preferred domain controllers] ****************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+
+TASK [Create CIFS server on SVMs] ******************************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=svm02-san)[0m
+
+TASK [Patch additional SVM CIFS parameters - comment] **********************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1] => (item=cluster1_ad) [0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=12  [0m [0;33mchanged=12  [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+real	0m47.796s
+user	0m16.529s
+sys	0m2.952s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-20-* [1P[1P[1@3[1@1
+
+PLAY [ONTAP-31-01 - Export Policies & Rules] *******************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create read-only export policy] **************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Create read-only export policy rules for SVM root volume] ************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Apply read-only export policy to SVM's root volume] ******************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Create read-write export policy] *************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Create read-write export policy rules for SVM root volume] ***********************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=5   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-31-02 - Volumes & Qtrees] **************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create volume] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Create qtrees] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_31_vol_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_vol_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_vol_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_vol_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_vol_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=7   [0m [0;33mchanged=7   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-31-03 - Mount & Write (Volumes)] *******************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Ensure stale mounts are removed before proceding (in case a mount exists)] *******************************************************************************************************************************************************************************************************************************************
+[0;32mok: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt05)[0m
+
+TASK [Create mount directories] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt05)[0m
+
+TASK [Mount NFS export on Linux host] **************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt05)[0m
+
+TASK [Create test file on each export] *************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcentos1[0m                    : [0;32mok=4   [0m [0;33mchanged=3   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mcluster1[0m                   : [0;32mok=7   [0m [0;33mchanged=7   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-31-04 - FlexGroup & Qtrees] ************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create FlexGroup] ****************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Create qtrees] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_31_fg_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_fg_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_fg_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_fg_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_31_fg_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcentos1[0m                    : [0;32mok=4   [0m [0;33mchanged=3   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mcluster1[0m                   : [0;32mok=9   [0m [0;33mchanged=9   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-31-05 - Mount & Write (FlexGroups)] ****************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Ensure stale mounts are removed before proceding (in case a mount exists)] *******************************************************************************************************************************************************************************************************************************************
+[0;32mok: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+TASK [Create mount directories] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+TASK [Mount NFS export on Linux host] **************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+TASK [Create test file on each export] *************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcentos1[0m                    : [0;32mok=8   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mcluster1[0m                   : [0;32mok=9   [0m [0;33mchanged=9   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+real	0m52.979s
+user	0m17.514s
+sys	0m5.329s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-31-* [1P[1@2
+
+PLAY [ONTAP-32-01 - Volumes & Qtrees] **************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create volume] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Create qtrees] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=2   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-32-02 - Shares & ACLs (Volume)] ********************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create shares] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt05)[0m
+
+TASK [Remove "Full Control" for "Everyone"] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt05)[0m
+
+TASK [Create ACL on test share (admins - Full Control)] ********************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt05)[0m
+
+TASK [Create ACL on test share (read-only users - Read)] *******************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=6   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-32-03 - Mount & Write (Volume)] ********************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create mount directory] **********************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost][0m
+
+TASK [Save network credentials] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost][0m
+
+TASK [Map shares] **********************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt05)[0m
+
+TASK [Create test file on each share] **************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=6   [0m [0;33mchanged=6   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mjumphost[0m                   : [0;32mok=4   [0m [0;33mchanged=4   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-32-04 - FlexGroups & Qtrees] ***********************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create FlexGroup] ****************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Create qtrees] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=8   [0m [0;33mchanged=8   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mjumphost[0m                   : [0;32mok=4   [0m [0;33mchanged=4   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-32-05 - Shares & ACLs (FlexGroup)] *****************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create shares] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt05)[0m
+
+TASK [Remove "Full Control" for "Everyone"] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt05)[0m
+
+TASK [Create ACL on test share (admins - Full Control)] ********************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt05)[0m
+
+TASK [Create ACL on test share (read-only users - Read)] *******************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=12  [0m [0;33mchanged=12  [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mjumphost[0m                   : [0;32mok=4   [0m [0;33mchanged=4   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-32-06 - Mount & Write (FlexGroup)] *****************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Create mount directory] **********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [jumphost][0m
+
+TASK [Save network credentials] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost][0m
+
+TASK [Map shares] **********************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt05)[0m
+
+TASK [Create test file on each share] **************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=12  [0m [0;33mchanged=12  [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mjumphost[0m                   : [0;32mok=8   [0m [0;33mchanged=7   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+real	2m6.211s
+user	0m37.379s
+sys	0m6.984s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-32-* [1P [1P [1P [1P r e v e r t - 3 1 .yml 
+
+PLAY [ONTAP-revert-31 - NFS - Linux] ***************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Unmount exports on volume] *******************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_vol_qt05)[0m
+
+TASK [Unmount exports on FlexGroup] ****************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;33mchanged: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+TASK [Remove mount directories] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt05)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+PLAY [ONTAP-revert-31 - NFS - ONTAP] ***************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Remove volume] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Remove FlexGroup] ****************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Remove read-write export policy] *************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Apply default export policy to root volume] **************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Remove read-only export policy] **************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcentos1[0m                    : [0;32mok=3   [0m [0;33mchanged=2   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mcluster1[0m                   : [0;32mok=5   [0m [0;33mchanged=5   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+real	0m35.957s
+user	0m8.358s
+sys	0m2.436s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-revert-31.yml [1P [1P [1P [1P [1P 2 .yml 
+
+PLAY [ONTAP-revert-32 - CIFS - Windows] ************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Remove mapped shares] ************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_vol_qt05)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [jumphost] => (item=ontap_32_fg_qt05)[0m
+
+TASK [Remove network credentials] ******************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost][0m
+
+TASK [Remove mount directory] **********************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [jumphost][0m
+
+PLAY [ONTAP-revert-32 - CIFS - ONTAP] **************************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Remove shares] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_vol_qt05)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt01)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt02)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt03)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt04)[0m
+[0;33mchanged: [cluster1] => (item=ontap_32_fg_qt05)[0m
+
+TASK [Remove volume] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+TASK [Remove FlexGroup] ****************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mcluster1[0m                   : [0;32mok=3   [0m [0;33mchanged=3   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;33mjumphost[0m                   : [0;32mok=3   [0m [0;33mchanged=3   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+real	1m11.672s
+user	0m14.255s
+sys	0m2.189s
+]0;root@centos1:~/NetApp-ONTAP-Testplan[root@centos1 NetApp-ONTAP-Testplan]# time ansible-playbook -i inventories/labondemand playbooks/ONTAP-revert-32.yml [K[K[K[K[K[K[K00*
+
+PLAY [ONTAP-revert-00 - Return to Day0 - Linux] ****************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Unmount exports] *****************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt05)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+TASK [Remove mount directories] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [centos1] => (item=ontap_31_vol_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_vol_qt05)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt01)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt02)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt03)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt04)[0m
+[0;32mok: [centos1] => (item=ontap_31_fg_qt05)[0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mcentos1[0m                    : [0;32mok=2   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+PLAY [ONTAP-revert-00 - Return to Day0 - Windows] **************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Remove mapped shares] ************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [jumphost] => (item=ontap_32_vol_qt01)[0m
+[0;32mok: [jumphost] => (item=ontap_32_vol_qt02)[0m
+[0;32mok: [jumphost] => (item=ontap_32_vol_qt03)[0m
+[0;32mok: [jumphost] => (item=ontap_32_vol_qt04)[0m
+[0;32mok: [jumphost] => (item=ontap_32_vol_qt05)[0m
+[0;32mok: [jumphost] => (item=ontap_32_fg_qt01)[0m
+[0;32mok: [jumphost] => (item=ontap_32_fg_qt02)[0m
+[0;32mok: [jumphost] => (item=ontap_32_fg_qt03)[0m
+[0;32mok: [jumphost] => (item=ontap_32_fg_qt04)[0m
+[0;32mok: [jumphost] => (item=ontap_32_fg_qt05)[0m
+
+TASK [Remove network credentials] ******************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [jumphost][0m
+
+TASK [Remove mount directory] **********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [jumphost][0m
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mcentos1[0m                    : [0;32mok=2   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+[0;32mjumphost[0m                   : [0;32mok=3   [0m changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[1;35m[WARNING]: While constructing a mapping from /root/NetApp-ONTAP-Testplan/playbooks/ONTAP-revert-00.yml, line 136, column 7, found a duplicate dict key (hostname). Using last defined value only.[0m
+[1;35m[WARNING]: While constructing a mapping from /root/NetApp-ONTAP-Testplan/playbooks/ONTAP-revert-00.yml, line 218, column 7, found a duplicate dict key (use_rest). Using last defined value only.[0m
+
+PLAY [ONTAP-revert-00 - Return to Day0 - ONTAP] ****************************************************************************************************************************************************************************************************************************************************************************
+
+TASK [Get all non-root volumes from clusters] ******************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster2][0m
+[0;32mok: [cluster1][0m
+
+TASK [Delete all volumes from clusters] ************************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+TASK [Get all SVM CIFS servers] ********************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Delete all SVM CIFS servers] *****************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2] => (item=cluster2_ad - CLUSTER2_AD)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san - SVM02-SAN)[0m
+[0;33mchanged: [cluster1] => (item=cluster1_ad - CLUSTER1_AD)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas - SVM01-NAS)[0m
+
+TASK [Get all SVM interfaces from clusters] ********************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Delete all SVM interfaces from clusters] *****************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas - ntap-svm01-nas)[0m
+[0;33mchanged: [cluster2] => (item=cluster2_ad - cluster2_ad)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san - ntap-svm02-san)[0m
+[0;33mchanged: [cluster1] => (item=cluster1_ad - cluster1_ad)[0m
+
+TASK [Get all intercluster interfaces from clusters] ***********************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster2][0m
+[0;32mok: [cluster1][0m
+
+TASK [Delete intercluster interfaces from clusters] ************************************************************************************************************************************************************************************************************************************************************************
+[0;36mskipping: [cluster1][0m
+[0;36mskipping: [cluster2][0m
+
+TASK [Get all SVMs] ********************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Delete all SVMs] *****************************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2] => (item=cluster2_ad)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm02-san)[0m
+[0;33mchanged: [cluster1] => (item=cluster1_ad)[0m
+[0;33mchanged: [cluster1] => (item=ntap-svm01-nas)[0m
+
+TASK [Get all users] *******************************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Remove all additional users from cluster] ****************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item=DEMO\na_ad_admin_group)[0m
+[0;33mchanged: [cluster2] => (item=DEMO\na_ad_admin_group)[0m
+[0;33mchanged: [cluster2] => (item=DEMO\na_ad_ro_group)[0m
+[0;33mchanged: [cluster1] => (item=DEMO\na_ad_ro_group)[0m
+[0;36mskipping: [cluster1] => (item=admin) [0m
+[0;36mskipping: [cluster1] => (item=autosupport) [0m
+[0;36mskipping: [cluster2] => (item=admin) [0m
+[0;36mskipping: [cluster2] => (item=autosupport) [0m
+[0;33mchanged: [cluster2] => (item=na_local_admin)[0m
+[0;33mchanged: [cluster1] => (item=na_local_admin)[0m
+[0;33mchanged: [cluster2] => (item=na_local_ro)[0m
+[0;33mchanged: [cluster1] => (item=na_local_ro)[0m
+
+TASK [Get all non-root aggregates] *****************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Remove all non-root aggregates from clusters] ************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item={'uuid': '486975e5-62d0-11ee-a847-005056ab483e', 'name': 'cluster1_01_aggr01', '_links': {'self': {'href': '/api/storage/aggregates/486975e5-62d0-11ee-a847-005056ab483e'}}})[0m
+[0;33mchanged: [cluster2] => (item={'uuid': '4869a5ff-62d0-11ee-8d2e-005056abdd29', 'name': 'cluster2_01_aggr01', '_links': {'self': {'href': '/api/storage/aggregates/4869a5ff-62d0-11ee-8d2e-005056abdd29'}}})[0m
+[0;33mchanged: [cluster2] => (item={'uuid': '4c52847e-62d0-11ee-8d2e-005056abdd29', 'name': 'cluster2_02_aggr01', '_links': {'self': {'href': '/api/storage/aggregates/4c52847e-62d0-11ee-8d2e-005056abdd29'}}})[0m
+[0;33mchanged: [cluster1] => (item={'uuid': '4935a86e-62d0-11ee-a847-005056ab483e', 'name': 'cluster1_02_aggr01', '_links': {'self': {'href': '/api/storage/aggregates/4935a86e-62d0-11ee-a847-005056ab483e'}}})[0m
+
+TASK [Remove DNS config from cluster] **************************************************************************************************************************************************************************************************************************************************************************************
+[1;35m[WARNING]: With version 22.0.0 ONTAPI (ZAPI) has been deprecated. The final ONTAP version to support ZAPI is ONTAP 9.13.1.  ZAPI calls in these modules will continue to work for ONTAP versions that supports ZAPI.  You can update your playbook to use REST by adding use_rest: always to your playbook.  More[0m
+[1;35minformation can be found at: https://github.com/ansible-collections/netapp.ontap[0m
+[0;33mchanged: [cluster1][0m
+[0;33mchanged: [cluster2][0m
+
+TASK [Get all NTP servers from cluster] ************************************************************************************************************************************************************************************************************************************************************************************
+[0;32mok: [cluster1][0m
+[0;32mok: [cluster2][0m
+
+TASK [Remove NTP servers from cluster] *************************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1] => (item={'server': '0.us.pool.ntp.org', '_links': {'self': {'href': '/api/cluster/ntp/servers/0.us.pool.ntp.org'}}})[0m
+[0;33mchanged: [cluster2] => (item={'server': '0.us.pool.ntp.org', '_links': {'self': {'href': '/api/cluster/ntp/servers/0.us.pool.ntp.org'}}})[0m
+[0;33mchanged: [cluster1] => (item={'server': '1.us.pool.ntp.org', '_links': {'self': {'href': '/api/cluster/ntp/servers/1.us.pool.ntp.org'}}})[0m
+[0;33mchanged: [cluster2] => (item={'server': '1.us.pool.ntp.org', '_links': {'self': {'href': '/api/cluster/ntp/servers/1.us.pool.ntp.org'}}})[0m
+
+TASK [Reset timezone on storage cluster to Etc/UTC] ************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster2][0m
+[0;33mchanged: [cluster1][0m
+
+TASK [Remove onboard key manager configuration] ****************************************************************************************************************************************************************************************************************************************************************************
+[0;33mchanged: [cluster1][0m
+[0;33mchanged: [cluster2][0m
+
+TASK [Get interface groups and VLANs from cluster] ***************************
