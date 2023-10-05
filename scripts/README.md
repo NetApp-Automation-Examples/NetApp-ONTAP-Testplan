@@ -100,6 +100,37 @@ user    0m38.970s
 sys     0m7.839s
 ```
 
+## Demo Timing
+
+1. Cluster Configuration
+2. Data Storage Virtual Machine(SVM) Configuration
+3. NAS Provisioning - Standard NFS Exports & SMB Shares
+
+```shell
+time ansible-playbook -i inventories/labondemand playbooks/ONTAP-1*
+time ansible-playbook -i inventories/labondemand playbooks/ONTAP-2*
+time ansible-playbook -i inventories/labondemand playbooks/ONTAP-3*
+time ansible-playbook -i inventories/labondemand playbooks/ONTAP-revert-00*
+```
+
+real    2m2.652s
+user    0m46.661s
+sys     0m7.922s
+
+real    0m41.924s
+user    0m15.781s
+sys     0m2.943s
+
+real    2m57.534s
+user    0m53.982s
+sys     0m12.166s
+
+Revert
+
+real    2m29.567s
+user    0m44.212s
+sys     0m8.709s
+
 ## Observations
 
 revert playbooks work differently:
