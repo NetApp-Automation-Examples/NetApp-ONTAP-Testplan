@@ -119,7 +119,7 @@ svm_svms:
     nfs:
       allowed:                    false
     cifs:
-      allowed:                    true
+      allowed:                    false
     iscsi:
       allowed:                    true
     fcp:
@@ -127,7 +127,7 @@ svm_svms:
     ndmp:
       allowed:                    false
     nvme:
-      allowed:                    false
+      allowed:                    true
     language:                     "utf8mb4"
     comment:                      "This is the second SVM for SAN testing"
 
@@ -177,7 +177,7 @@ protocols_cifs_services:
       fqdn:                       "{{ all_ad_domain }}"
       organizational_unit:        "{{ all_storage_ad_ou_path }}"
     comment:                      "This CIFS Server is created for the primary SAN SVM"
-    enabled:                      true
+    enabled:                      false
 
 network_ip_interfaces:
   - name:                         "{{ svm_svms[0].name }}"
@@ -225,9 +225,9 @@ network_ip_interfaces:
         name:                     "{{ cluster_nodes[1].name }}"
       home_port:
         name:                     "e0c"
-      auto_revert:                true
+      auto_revert:                false
     service_policy:
-      name:                       "default-data-files"
+      name:                       "default-data-nvme-tcp"
   - name:                         "{{ cluster_nodes[0].name }}_ic01"
     scope:                        "cluster"
     ip:
