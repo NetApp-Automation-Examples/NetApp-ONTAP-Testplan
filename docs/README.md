@@ -27,6 +27,16 @@ get-NcCifsShareACL -vserverContent ntap-svm01-nas
 
 ## Timing for running batches of test cases
 
+**Initial Lab Configuration**
+
+`~/init/init_LD00821.sh`
+
+```shell
+real    11m20.105s
+user    5m47.239s
+sys     1m25.138s
+```
+
 **Initial Connectivity Test and Version**
 ```shell
 real    0m2.156s
